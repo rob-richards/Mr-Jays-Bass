@@ -1,0 +1,124 @@
+on init
+  make_perfview
+  set_ui_height( 3 )
+  declare $keyswitch1 := 12 { Range 1 - Open string-Fret 4 }
+  declare $keyswitch2 := 14 { Range 2 - Fret 4-11 }
+  declare $keyswitch3 := 16 { Range 3 - Fret 12-16 }
+  declare $keyswitch4 := 17 { Range 4 - Fret 17-20 }
+  declare $keyswitch5 := 19 { Ghost }
+  declare $current_range := 1
+  declare $ghost_state := 0
+  declare $
+  declare $RR := 1
+  set_key_color($keyswitch1, $KEY_COLOR_RED)
+  set_key_color($keyswitch2, $KEY_COLOR_RED)
+  set_key_color($keyswitch3, $KEY_COLOR_RED)
+  set_key_color($keyswitch4, $KEY_COLOR_RED)
+  set_key_color($keyswitch5, $KEY_COLOR_GREEN)
+end on
+
+on note
+  disallow_group($ALL_GROUPS)
+
+  if ($RR = 1)
+    $RR := 2
+  else
+    $RR := 1
+  end if
+
+  if ($EVENT_NOTE = $keyswitch1)
+    $current_range := 1
+  end if
+
+  if ($EVENT_NOTE = $keyswitch2)
+    $current_range := 2
+  end if
+
+  if ($EVENT_NOTE = $keyswitch3)
+    $current_range := 3
+  end if
+
+  if ($EVENT_NOTE = $keyswitch4)
+    $current_range := 4
+  end if
+
+  if ($EVENT_NOTE = $keyswitch5)
+    if ($ghost_state = 0)
+      $ghost_state := 1
+    else
+      $ghost_state := 0
+    end if
+  end if
+
+  message("Current State: >> " & $current_range & " ----- Event Note: >> " & $EVENT_NOTE & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR)
+
+  if ($ghost_state = 1)
+    allow_group(find_group("Ghost RR" & $RR))
+    exit
+  end if
+
+  { Note Range 1 }
+  if ($current_range = 1)
+      allow_group(find_group("E String Range 1 RR" & $RR))
+      allow_group(find_group("A String Range 1 RR" & $RR))
+      allow_group(find_group("D String Range 1 RR" & $RR))
+      allow_group(find_group("G String Range 1 RR" & $RR))
+      allow_group(find_group("G String Range 2 RR" & $RR))
+      allow_group(find_group("G String Range 3 RR" & $RR))
+      allow_group(find_group("G String Range 4 RR" & $RR))
+      exit
+  end if
+
+  { Note Range 2 }
+  if ($current_range = 2)
+      allow_group(find_group("E String Range 1 RR" & $RR))
+      allow_group(find_group("E String Range 2 RR" & $RR))
+      allow_group(find_group("A String Range 2 RR" & $RR))
+      allow_group(find_group("D String Range 2 RR" & $RR))
+      allow_group(find_group("G String Range 2 RR" & $RR))
+      allow_group(find_group("G String Range 3 RR" & $RR))
+      allow_group(find_group("G String Range 4 RR" & $RR))
+      exit
+  end if
+
+  { Note Range 3 }
+  if ($current_range = 3)
+      allow_group(find_group("E String Range 1 RR" & $RR))
+      allow_group(find_group("E String Range 2 RR" & $RR))
+      allow_group(find_group("E String Range 3 RR" & $RR))
+      allow_group(find_group("A String Range 3 RR" & $RR))
+      allow_group(find_group("D String Range 3 RR" & $RR))
+      allow_group(find_group("G String Range 3 RR" & $RR))
+      allow_group(find_group("G String Range 4 RR" & $RR))
+      exit
+  end if
+
+  { Note Range 4 }
+  if ($current_range = 4)
+      allow_group(find_group("E String Range 1 RR" & $RR))
+      allow_group(find_group("E String Range 2 RR" & $RR))
+      allow_group(find_group("E String Range 3 RR" & $RR))
+      allow_group(find_group("E String Range 4 RR" & $RR))
+      allow_group(find_group("A String Range 4 RR" & $RR))
+      allow_group(find_group("D String Range 4 RR" & $RR))
+      allow_group(find_group("G String Range 4 RR" & $RR))
+      exit
+  end if
+
+  { Note Range 5 }
+  if ($current_range = 5)
+    allow_group(32)
+    exit
+  end if
+
+end on
+
+on release
+  if (get_event_par_arr($EVENT_ID,$EVENT_PAR_ALLOW_GROUP,0) = 1)
+    disallow_group($ALL_GROUPS)
+    allow_group(find_group("Release RR" & $RR))
+    play_note ($EVENT_NOTE,$EVENT_VELOCITY,0,0)
+  end if
+
+end on
+
