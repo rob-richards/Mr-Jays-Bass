@@ -8,7 +8,6 @@ on init
   declare $keyswitch5 := 19 { Ghost }
   declare $current_range := 1
   declare $ghost_state := 0
-  declare $
   declare $RR := 1
   set_key_color($keyswitch1, $KEY_COLOR_RED)
   set_key_color($keyswitch2, $KEY_COLOR_RED)
@@ -19,7 +18,7 @@ end on
 
 on note
   disallow_group($ALL_GROUPS)
-
+  
   if ($RR = 1)
     $RR := 2
   else
@@ -50,7 +49,7 @@ on note
     end if
   end if
 
-  message("Current State: >> " & $current_range & " ----- Event Note: >> " & $EVENT_NOTE & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR)
+  { message("Current State: >> " & $current_range & " ----- Event Note: >> " & $EVENT_NOTE & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR) }
 
   if ($ghost_state = 1)
     allow_group(find_group("Ghost RR" & $RR))
@@ -117,8 +116,11 @@ on release
   if (get_event_par_arr($EVENT_ID,$EVENT_PAR_ALLOW_GROUP,0) = 1)
     disallow_group($ALL_GROUPS)
     allow_group(find_group("Release RR" & $RR))
+    allow_group(find_group("String Noise RR" & $RR))
     play_note ($EVENT_NOTE,$EVENT_VELOCITY,0,0)
   end if
+
+  message( "get_event_par_arr($EVENT_ID,$EVENT_PAR_ALLOW_GROUP,$current_range): >> " & get_event_par_arr($EVENT_ID,$EVENT_PAR_ALLOW_GROUP,$current_range) )
 
 end on
 
