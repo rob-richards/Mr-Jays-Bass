@@ -137,15 +137,14 @@ end on
 
 on release
   if ($ghost_state = 0)
+  if ($slide_state = 0)
     if (get_event_par_arr($EVENT_ID,$EVENT_PAR_ALLOW_GROUP,$ALL_GROUPS) = 1)
       disallow_group($ALL_GROUPS)
-      if ($slide_state = 0)
-        allow_group(find_group("Release RR" & random(1, 2)))
-      end if
-      
+      allow_group(find_group("Release RR" & random(1, 2)))
       allow_group(find_group("String Noise RR" & random(1, 2)))
       play_note ($EVENT_NOTE,$EVENT_VELOCITY,0,0)
     end if
+  end if
   end if
 
 end on
