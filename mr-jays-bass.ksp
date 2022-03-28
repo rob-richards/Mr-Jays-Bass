@@ -72,6 +72,11 @@ on note
     exit
   end if
 
+  if ($slide_state = 1)
+    allow_group(find_group("Slide Down RR" & $RR))
+    exit
+  end if
+
   { Note Range 1 }
   if ($current_range = 1)
       allow_group(find_group("E String Range 1 RR" & $RR))
