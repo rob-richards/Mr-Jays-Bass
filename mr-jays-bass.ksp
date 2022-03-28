@@ -11,6 +11,7 @@ on init
   declare $ghost_state := 0
   declare $slide_state := 0
   declare $RR := 1
+  declare $slide_rr := 1
   set_key_color($keyswitch1, $KEY_COLOR_RED)
   set_key_color($keyswitch2, $KEY_COLOR_RED)
   set_key_color($keyswitch3, $KEY_COLOR_RED)
@@ -22,6 +23,7 @@ end on
 on note
   disallow_group($ALL_GROUPS)
   $RR := random(1, 2)
+  $slide_rr := random(1, 4)
   
   { if ($RR = 1)
     $RR := 2
@@ -65,7 +67,7 @@ on note
     $ghost_state := 0
   end if
 
-  message("Current State: >> " & $current_range & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR)
+  message("Current State: >> " & $current_range & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & "----- Slide Round Robin: >> " & $slide_rr)
 
   if ($ghost_state = 1)
     allow_group(find_group("Ghost RR" & $RR))
@@ -73,7 +75,7 @@ on note
   end if
 
   if ($slide_state = 1)
-    allow_group(find_group("Slide Down RR" & $RR))
+    allow_group(find_group("Slide Down RR" & $slide_rr))
     exit
   end if
 
@@ -137,7 +139,10 @@ on release
   if ($ghost_state = 0)
     if (get_event_par_arr($EVENT_ID,$EVENT_PAR_ALLOW_GROUP,$ALL_GROUPS) = 1)
       disallow_group($ALL_GROUPS)
-      allow_group(find_group("Release RR" & random(1, 2)))
+      if ($slide_state = 0)
+        allow_group(find_group("Release RR" & random(1, 2)))
+      end if
+      
       allow_group(find_group("String Noise RR" & random(1, 2)))
       play_note ($EVENT_NOTE,$EVENT_VELOCITY,0,0)
     end if
