@@ -1,0 +1,129 @@
+
+{***********************************************
+Vintage Keys - Data
+Modified: April 16, 2015
+*************************************************}
+
+on init
+	
+	{GENERAL}
+	message("")
+	set_script_title("Vintage Keys - Data")
+    set_key_pressed_support(1)
+    
+    declare $count
+    declare $canNotSwitchPickups 
+    $canNotSwitchPickups := find_group("only_lower") + find_group("only_upper") + find_group("only_out") + find_group("only_in")
+    
+    
+    {Icon}
+    set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"InstIcon")
+
+	{label}
+	declare ui_label $label (2,1)
+	set_text ($label,"Vintage Keys - Data")
+	move_control($label,1,1)
+
+	{key colors, types, notes and ranges}
+
+	{init}
+	$count := 0
+    while ($count < 128)
+        set_key_color($count,$KEY_COLOR_INACTIVE)
+        set_key_name($count,"")
+		remove_keyrange($count)
+		set_key_type($count,$NI_KEY_TYPE_NONE)
+        inc($count)
+    end while
+ 
+    {Set Key Types}
+    if (find_group("FEP") > 0){Instrument is Clavinet}
+        {Playing Range for the Clavinet}    
+        $count := 27 {D#0)}
+        while ($count <= 88) {E5}
+            set_key_color($count,$KEY_COLOR_DEFAULT)
+            set_key_type($count,$NI_KEY_TYPE_DEFAULT)
+            inc($count)
+        end while        
+            
+    
+        if($canNotSwitchPickups = 0) {If instrument can switch pickups set the key switches type}
+        
+            set_key_type(96,$NI_KEY_TYPE_CONTROL)
+            set_key_color(96,$KEY_COLOR_RED)
+            set_key_name(96,"Lower Pickup")
+            
+            set_key_type(98,$NI_KEY_TYPE_CONTROL)
+            set_key_color(98,$KEY_COLOR_RED)
+            set_key_name(98,"Upper Pickup")
+            
+            set_key_type(100,$NI_KEY_TYPE_CONTROL)
+            set_key_color(100,$KEY_COLOR_RED)
+            set_key_name(100,"Out of Phase")
+            
+            set_key_type(101,$NI_KEY_TYPE_CONTROL)
+            set_key_color(101,$KEY_COLOR_RED)
+            set_key_name(101,"In Phase")     
+        
+        end if
+        
+        {Set the key switches type for the filter section}
+        
+        set_key_type(103,$NI_KEY_TYPE_CONTROL)
+        set_key_color(103,$KEY_COLOR_RED)
+        set_key_name(103,"Brilliance On/Off")
+        
+        set_key_type(105,$NI_KEY_TYPE_CONTROL)
+        set_key_color(105,$KEY_COLOR_RED)
+        set_key_name(105,"Treble On/Off")
+        
+        set_key_type(107,$NI_KEY_TYPE_CONTROL)
+        set_key_color(107,$KEY_COLOR_RED)
+        set_key_name(107,"Medium On/Off")
+        
+        set_key_type(108,$NI_KEY_TYPE_CONTROL)
+        set_key_color(108,$KEY_COLOR_RED)
+        set_key_name(108,"Soft On/Off")
+        
+    else {Instrument is Mark I, A-200 or Pianet}
+        {Playing range common to Pianet and Mark I}
+        $count := 24 {C0)} 
+        
+        if (find_group("SEP") > 0){Range of the Pianet}
+             while ($count <= 89) {F5}
+                set_key_color($count,$KEY_COLOR_DEFAULT)
+                set_key_type($count,$NI_KEY_TYPE_DEFAULT)
+                inc($count)
+            end while 
+        end if       
+        
+        if (find_group("EEP") > 0){Extra for A200}
+             while ($count <= 96) {C6}
+                set_key_color($count,$KEY_COLOR_DEFAULT)
+                set_key_type($count,$NI_KEY_TYPE_DEFAULT)
+                inc($count)
+            end while 
+        end if       
+        
+        if (find_group("CEP") > 0){Extra for Mark I}
+             while ($count <= 103) {G6}
+                set_key_color($count,$KEY_COLOR_DEFAULT)
+                set_key_type($count,$NI_KEY_TYPE_DEFAULT)
+                inc($count)
+            end while 
+        end if              
+    end if
+    
+end on
+
+on note
+    
+    set_key_pressed($EVENT_NOTE, 1)
+    
+end on
+
+on release
+    
+    set_key_pressed($EVENT_NOTE, 0)
+    
+end on
