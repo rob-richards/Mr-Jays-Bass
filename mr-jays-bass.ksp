@@ -37,6 +37,8 @@ on note
   disallow_group($ALL_GROUPS)
   $slide_rr := random(1, 4)
 
+  { -------- Round Robin Mode Select -------- }
+  { Alternating }
   if ($RR_mode = 0)
     if ($RR = 1)
       $RR := 2
@@ -45,17 +47,21 @@ on note
     end if
   end if
 
+  { Random }
   if ($RR_mode = 1)
     $RR := random(1, 2)
   end if
 
+  { RR1 }
   if ($RR_mode = 2)
     $RR := 1
   end if
 
+  { RR2 }
   if ($RR_mode = 3)
     $RR := 2
   end if
+  { -------- /Round Robin Mode Select -------- }
 
   
   message("$RR_mode: >> " & $RR_mode & " ------------ $RR: >> " & $RR)
