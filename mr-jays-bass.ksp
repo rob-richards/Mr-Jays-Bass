@@ -1,6 +1,6 @@
 on init
   make_perfview
-  set_ui_height_px(230)
+  set_ui_height_px(290)
   set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"WaveDivision/MrJaysBass/wdlogo")
   declare $keyswitch1 := 12 { Range 1 - Open string-Fret 4 }
   declare $keyswitch2 := 14 { Range 2 - Fret 4-11 }
@@ -15,6 +15,8 @@ on init
   declare $slide_state := 0
   declare $RR := 1
   declare $slide_rr := 1
+  declare $pitch_bend_state := 0
+  declare $pitch_bend_stauts := 0
 
   { -------- Round Robin Dropdown -------- }
   declare ui_menu $RR_mode
@@ -42,6 +44,22 @@ on init
   set_key_color($keyswitch5, $KEY_COLOR_GREEN)
   set_key_color($keyswitch6, $KEY_COLOR_GREEN)
   set_key_color($keyswitch7, $KEY_COLOR_GREEN)
+end on
+
+on controller
+  if ($CC_NUM = $VCC_PITCH_BEND)
+    select (%CC[$VCC_PITCH_BEND])
+      case -8192 to -1
+        $pitch_bend_state := 1
+        $pitch_bend_stauts := -1
+      case 0
+        $pitch_bend_state := 0
+        $pitch_bend_stauts := 0
+      case 1 to 8191
+        $pitch_bend_state := 1
+        $pitch_bend_stauts := 1
+    end select
+  end if
 end on
 
 on note
@@ -78,8 +96,6 @@ on note
   if ($articulation = 2)
     if ($ghost_state = 0)
       $ghost_state := 1
-    else
-      $ghost_state := 0
     end if
 
     $slide_state := 0
@@ -102,8 +118,6 @@ on note
   if ($articulation = 1)
     if ($slide_state = 0)
       $slide_state := 1
-    else
-      $slide_state := 0
     end if
 
     $ghost_state := 0
@@ -126,8 +140,6 @@ on note
   if ($articulation = 0)
     if ($range_state = 0)
       $range_state := 1
-    else
-      $range_state := 0
     end if
 
     $ghost_state := 0
@@ -165,7 +177,7 @@ on note
   { -------- /Range Selectors -------- }
 
 
-  { message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ----- Current Range: >> " & $current_range) }
+  message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ----- Current Range: >> " & $current_range)
 
 
   if ($ghost_state = 1)
@@ -173,14 +185,28 @@ on note
     exit
   end if
 
+  message(" --------- pitch_bend_state: >> " & $pitch_bend_state & " --------- $pitch_bend_stauts " & $pitch_bend_stauts)
+
   if ($slide_state = 1)
-    if ($current_range = 1)
+    if ($pitch_bend_state = 1)
+      if ($pitch_bend_stauts = -1)
+        allow_group(find_group("Slide Down RR" & $slide_rr))
+      end if
+
+      if ($pitch_bend_stauts = 1)
+        allow_group(find_group("Slide Up RR" & $slide_rr))
+      end if
+
+      exit
+    end if
+
+    if ($current_range = 3)
       allow_group(find_group("Slide Down RR" & $slide_rr))
     end if
     if ($current_range = 2)
       allow_group(find_group("Slide Up RR" & $slide_rr))
     end if
-    if ($current_range = 3)
+    if ($current_range = 1)
       allow_group(find_group("E String Slide Up Tonal"))
       allow_group(find_group("A String Slide Up Tonal"))
       allow_group(find_group("D String Slide Up Tonal"))
@@ -189,6 +215,7 @@ on note
     if ($current_range = 4)
       allow_group(find_group("Slide UpDown RR" & $slide_rr))
     end if
+
     exit
   end if
 
