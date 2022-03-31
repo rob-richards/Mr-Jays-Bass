@@ -37,8 +37,13 @@ on init
   move_control_px($articulation, 416,190)
   { -------- /Articulation Dropdown -------- }
 
-  declare ui_knob $string_noise_volume(0, 10, 1)
-  set_knob_unit ($string_noise_volume,$KNOB_UNIT_DB)
+  declare ui_slider $string_noise_volume(0, 1000000)
+  make_persistent($string_noise_volume)
+
+  set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob")
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 150)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 235)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500 )
   
   set_key_color($keyswitch1, $KEY_COLOR_RED)
   set_key_color($keyswitch2, $KEY_COLOR_RED)
@@ -63,6 +68,11 @@ on controller
         $pitch_bend_stauts := 1
     end select
   end if
+end on
+
+{ UI callback, executed whenever the user changes the respective UI element }
+on ui_control( $string_noise_volume )
+    set_engine_par( $ENGINE_PAR_VOLUME, $string_noise_volume, -1, -1, -1 )
 end on
 
 on note
