@@ -1,6 +1,6 @@
 on init
   make_perfview
-  set_ui_height_px(290)
+  set_ui_height_px(315)
   set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"WaveDivision/MrJaysBass/wdlogo")
   declare $keyswitch1 := 12 { Range 1 - Open string-Fret 4 }
   declare $keyswitch2 := 14 { Range 2 - Fret 4-11 }
@@ -25,7 +25,7 @@ on init
   add_menu_item($RR_mode, "Random", 1)
   add_menu_item($RR_mode, "Round Robin 1", 2)
   add_menu_item($RR_mode, "Round Robin 2", 3)
-  move_control_px($RR_mode, 528,190)
+  move_control_px($RR_mode, 533,266)
   { -------- /Round Robin Dropdown -------- }
 
   { -------- Articulation Dropdown -------- }
@@ -34,7 +34,7 @@ on init
   add_menu_item($articulation, "Sustain", 0)
   add_menu_item($articulation, "Slide", 1)
   add_menu_item($articulation, "Ghost", 2)
-  move_control_px($articulation, 416,190)
+  move_control_px($articulation, 9,266)
   { -------- /Articulation Dropdown -------- }
 
   declare ui_slider $string_noise_volume(0, 1000000)
