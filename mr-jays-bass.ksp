@@ -36,6 +36,9 @@ on init
   add_menu_item($articulation, "Ghost", 2)
   move_control_px($articulation, 416,190)
   { -------- /Articulation Dropdown -------- }
+
+  declare ui_knob $string_noise_volume(0, 10, 1)
+  set_knob_unit ($string_noise_volume,$KNOB_UNIT_DB)
   
   set_key_color($keyswitch1, $KEY_COLOR_RED)
   set_key_color($keyswitch2, $KEY_COLOR_RED)
@@ -176,16 +179,12 @@ on note
   end if
   { -------- /Range Selectors -------- }
 
-
   message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ----- Current Range: >> " & $current_range)
-
 
   if ($ghost_state = 1)
     allow_group(find_group("Ghost RR" & $RR))
     exit
   end if
-
-  message(" --------- pitch_bend_state: >> " & $pitch_bend_state & " --------- $pitch_bend_stauts " & $pitch_bend_stauts)
 
   if ($slide_state = 1)
     if ($pitch_bend_state = 1)
