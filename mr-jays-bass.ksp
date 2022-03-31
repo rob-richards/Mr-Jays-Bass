@@ -18,11 +18,22 @@ on init
 
   { -------- Round Robin Dropdown -------- }
   declare ui_menu $RR_mode
+  set_control_par_str(get_ui_id($RR_mode),$CONTROL_PAR_AUTOMATION_NAME,"Round Robin Mode")
   add_menu_item($RR_mode, "Alternating", 0)
   add_menu_item($RR_mode, "Random", 1)
   add_menu_item($RR_mode, "Round Robin 1", 2)
   add_menu_item($RR_mode, "Round Robin 2", 3)
+  move_control_px($RR_mode, 528,190)
   { -------- /Round Robin Dropdown -------- }
+
+  { -------- Articulation Dropdown -------- }
+  declare ui_menu $articulation
+  set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME,"Articulation")
+  add_menu_item($articulation, "Sustain", 0)
+  add_menu_item($articulation, "Slide", 1)
+  add_menu_item($articulation, "Ghost", 2)
+  move_control_px($articulation, 416,190)
+  { -------- /Articulation Dropdown -------- }
   
   set_key_color($keyswitch1, $KEY_COLOR_RED)
   set_key_color($keyswitch2, $KEY_COLOR_RED)
@@ -63,10 +74,18 @@ on note
   end if
   { -------- /Round Robin Mode Select -------- }
 
-  
-  message("$RR_mode: >> " & $RR_mode & " ------------ $RR: >> " & $RR)
-
   { -------- Ghost State -------- }
+  if ($articulation = 2)
+    if ($ghost_state = 0)
+      $ghost_state := 1
+    else
+      $ghost_state := 0
+    end if
+
+    $slide_state := 0
+    $range_state := 0
+  end if
+
   if ($EVENT_NOTE = $keyswitch5)
     if ($ghost_state = 0)
       $ghost_state := 1
@@ -80,6 +99,17 @@ on note
   { -------- /Ghost State -------- }
 
   { -------- Slide State -------- }
+  if ($articulation = 1)
+    if ($slide_state = 0)
+      $slide_state := 1
+    else
+      $slide_state := 0
+    end if
+
+    $ghost_state := 0
+    $range_state := 0
+  end if
+
   if ($EVENT_NOTE = $keyswitch6)
     if ($slide_state = 0)
       $slide_state := 1
@@ -93,6 +123,17 @@ on note
   { -------- /Slide State -------- }
 
   { -------- Range State -------- }
+  if ($articulation = 0)
+    if ($range_state = 0)
+      $range_state := 1
+    else
+      $range_state := 0
+    end if
+
+    $ghost_state := 0
+    $slide_state := 0
+  end if
+
   if ($EVENT_NOTE = $keyswitch7)
     if ($range_state = 0)
       $range_state := 1
