@@ -28,26 +28,38 @@ on init
   add_menu_item($RR_mode, "Random", 1)
   add_menu_item($RR_mode, "Round Robin 1", 2)
   add_menu_item($RR_mode, "Round Robin 2", 3)
-  move_control_px($RR_mode, 534,266)
+  move_control_px($RR_mode, 533,266)
   { -------- /Round Robin Dropdown -------- }
 
   { -------- Articulation Dropdown -------- }
   declare ui_menu $articulation
-  set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME,"Articulation")
+  set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME, "Articulation")
   set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_PICTURE, "dropdown-red")
   set_control_par(get_ui_id($articulation), $CONTROL_PAR_FONT_TYPE, 1)
   set_control_par(get_ui_id($articulation), $CONTROL_PAR_TEXTPOS_Y, 3)
   add_menu_item($articulation, "Sustain", 0)
   add_menu_item($articulation, "Slide", 1)
   add_menu_item($articulation, "Ghost", 2)
-  move_control_px($articulation, 10, 266)
-
+  move_control_px($articulation, 9, 266)
 
 	{ set_control_par(get_ui_id($articulation),$CONTROL_PAR_WIDTH, 121)
 	set_control_par(get_ui_id($articulation),$CONTROL_PAR_FONT_TYPE, 2)
 	set_control_par(get_ui_id($articulation),$CONTROL_PAR_TEXTPOS_Y, 1)
 	set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_PICTURE, "knob") }
   { -------- /Articulation Dropdown -------- }
+
+  { -------- Fret Range Dropdown -------- }
+  declare ui_menu $fret_range
+  set_control_par_str(get_ui_id($fret_range),$CONTROL_PAR_AUTOMATION_NAME, "fret_range")
+  set_control_par_str(get_ui_id($fret_range),$CONTROL_PAR_PICTURE, "dropdown-red")
+  set_control_par(get_ui_id($fret_range), $CONTROL_PAR_FONT_TYPE, 1)
+  set_control_par(get_ui_id($fret_range), $CONTROL_PAR_TEXTPOS_Y, 3)
+  add_menu_item($fret_range, "0-4", 0)
+  add_menu_item($fret_range, "5-9", 1)
+  add_menu_item($fret_range, "10-14", 2)
+  add_menu_item($fret_range, "15-20", 2)
+  move_control_px($fret_range, 152, 266)
+  { -------- /Fret Range Dropdown -------- }
 
   { -------- Tone Knob -------- }
   declare ui_slider $tone_knob(0, 1000000)
