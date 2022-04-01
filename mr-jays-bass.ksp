@@ -1,6 +1,6 @@
 on init
   make_perfview
-  set_ui_height_px(315)
+  set_ui_height_px(306)
   set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"WaveDivision/MrJaysBass/wdlogo")
   declare $keyswitch1 := 12 { Range 1 - Open string-Fret 4 }
   declare $keyswitch2 := 14 { Range 2 - Fret 4-11 }
@@ -34,15 +34,22 @@ on init
   add_menu_item($articulation, "Sustain", 0)
   add_menu_item($articulation, "Slide", 1)
   add_menu_item($articulation, "Ghost", 2)
-  move_control_px($articulation, 9,266)
+  move_control_px($articulation, 9, 266)
+
+
+	{ set_control_par(get_ui_id($articulation),$CONTROL_PAR_WIDTH, 121)
+	set_control_par(get_ui_id($articulation),$CONTROL_PAR_FONT_TYPE, 2)
+	set_control_par(get_ui_id($articulation),$CONTROL_PAR_TEXTPOS_Y, 1)
+	set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_PICTURE, "knob") }
   { -------- /Articulation Dropdown -------- }
 
   declare ui_slider $string_noise_volume(0, 1000000)
+  set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME,"String Noise")
   make_persistent($string_noise_volume)
 
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob")
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 150)
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 235)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 293)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 255)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500 )
   
   set_key_color($keyswitch1, $KEY_COLOR_RED)
