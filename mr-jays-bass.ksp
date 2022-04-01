@@ -1,7 +1,7 @@
 on init
   make_perfview
   set_ui_height_px(306)
-  set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"WaveDivision/MrJaysBass/wdlogo")
+  set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"blank_icon")
   declare $keyswitch1 := 12 { Range 1 - Open string-Fret 4 }
   declare $keyswitch2 := 14 { Range 2 - Fret 4-11 }
   declare $keyswitch3 := 16 { Range 3 - Fret 12-16 }
@@ -69,7 +69,7 @@ on init
   set_control_par_str(get_ui_id($tone_knob), $CONTROL_PAR_PICTURE, "knob")
   set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_X, 570)
   set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_Y, 264)
-  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /Tone Knob -------- }
 
   { -------- String Noise Knob -------- }
@@ -80,7 +80,7 @@ on init
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob")
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 474)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 264)
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /String Noise Knob -------- }
   
   set_key_color($keyswitch1, $KEY_COLOR_RED)
@@ -109,11 +109,14 @@ on controller
 end on
 
 on ui_control($tone_knob)
-    set_engine_par($ENGINE_PAR_VOLUME, $tone_knob, -1, -1, -1)
+  set_engine_par($ENGINE_PAR_CUTOFF, $tone_knob, -1, 0, 1)
 end on
 
 on ui_control($string_noise_volume)
-    set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, -1, -1, -1)
+  set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, 32, -1, -1)
+  set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, 33, -1, -1)
+  set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, 36, -1, -1)
+  set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, 37, -1, -1)
 end on
 
 on note
