@@ -62,8 +62,9 @@ on init
   { -------- /Fret Range Dropdown -------- }
 
   { -------- Tone Knob -------- }
-  declare ui_slider $tone_knob(0, 1000000)
-  set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME,"Tone")
+  declare ui_slider $tone_knob(341000, 1000000) { 250hz - 20khz }
+  set_control_par_str(get_ui_id($tone_knob),$CONTROL_PAR_AUTOMATION_NAME, "Tone")
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_DEFAULT_VALUE, 1000000)
   make_persistent($tone_knob)
 
   set_control_par_str(get_ui_id($tone_knob), $CONTROL_PAR_PICTURE, "knob")
@@ -74,7 +75,8 @@ on init
 
   { -------- String Noise Knob -------- }
   declare ui_slider $string_noise_volume(0, 1000000)
-  set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME,"String Noise")
+  set_control_par_str(get_ui_id($string_noise_volume),$CONTROL_PAR_AUTOMATION_NAME,"String Noise")
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_DEFAULT_VALUE, 500000)
   make_persistent($string_noise_volume)
 
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob")
