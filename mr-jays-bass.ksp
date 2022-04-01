@@ -21,20 +21,26 @@ on init
   { -------- Round Robin Dropdown -------- }
   declare ui_menu $RR_mode
   set_control_par_str(get_ui_id($RR_mode),$CONTROL_PAR_AUTOMATION_NAME,"Round Robin Mode")
+  set_control_par_str(get_ui_id($RR_mode),$CONTROL_PAR_PICTURE, "dropdown-red")
+  set_control_par(get_ui_id($RR_mode), $CONTROL_PAR_FONT_TYPE, 1)
+  set_control_par(get_ui_id($RR_mode), $CONTROL_PAR_TEXTPOS_Y, 3)
   add_menu_item($RR_mode, "Alternating", 0)
   add_menu_item($RR_mode, "Random", 1)
   add_menu_item($RR_mode, "Round Robin 1", 2)
   add_menu_item($RR_mode, "Round Robin 2", 3)
-  move_control_px($RR_mode, 533,266)
+  move_control_px($RR_mode, 534,266)
   { -------- /Round Robin Dropdown -------- }
 
   { -------- Articulation Dropdown -------- }
   declare ui_menu $articulation
   set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME,"Articulation")
+  set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_PICTURE, "dropdown-red")
+  set_control_par(get_ui_id($articulation), $CONTROL_PAR_FONT_TYPE, 1)
+  set_control_par(get_ui_id($articulation), $CONTROL_PAR_TEXTPOS_Y, 3)
   add_menu_item($articulation, "Sustain", 0)
   add_menu_item($articulation, "Slide", 1)
   add_menu_item($articulation, "Ghost", 2)
-  move_control_px($articulation, 9, 266)
+  move_control_px($articulation, 10, 266)
 
 
 	{ set_control_par(get_ui_id($articulation),$CONTROL_PAR_WIDTH, 121)
@@ -43,14 +49,27 @@ on init
 	set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_PICTURE, "knob") }
   { -------- /Articulation Dropdown -------- }
 
+  { -------- Tone Knob -------- }
+  declare ui_slider $tone_knob(0, 1000000)
+  set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME,"Tone")
+  make_persistent($tone_knob)
+
+  set_control_par_str(get_ui_id($tone_knob), $CONTROL_PAR_PICTURE, "knob")
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_X, 296)
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_Y, 264)
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)
+  { -------- /Tone Knob -------- }
+
+  { -------- String Noise Knob -------- }
   declare ui_slider $string_noise_volume(0, 1000000)
   set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_AUTOMATION_NAME,"String Noise")
   make_persistent($string_noise_volume)
 
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob")
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 293)
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 255)
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500 )
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 418)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 264)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)
+  { -------- /String Noise Knob -------- }
   
   set_key_color($keyswitch1, $KEY_COLOR_RED)
   set_key_color($keyswitch2, $KEY_COLOR_RED)
@@ -77,9 +96,12 @@ on controller
   end if
 end on
 
-{ UI callback, executed whenever the user changes the respective UI element }
-on ui_control( $string_noise_volume )
-    set_engine_par( $ENGINE_PAR_VOLUME, $string_noise_volume, -1, -1, -1 )
+on ui_control($tone_knob)
+    set_engine_par($ENGINE_PAR_VOLUME, $tone_knob, -1, -1, -1)
+end on
+
+on ui_control($string_noise_volume)
+    set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, -1, -1, -1)
 end on
 
 on note
