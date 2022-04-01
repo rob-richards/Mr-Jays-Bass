@@ -28,7 +28,7 @@ on init
   add_menu_item($RR_mode, "Random", 1)
   add_menu_item($RR_mode, "Round Robin 1", 2)
   add_menu_item($RR_mode, "Round Robin 2", 3)
-  move_control_px($RR_mode, 533,266)
+  move_control_px($RR_mode, 287,262)
   { -------- /Round Robin Dropdown -------- }
 
   { -------- Articulation Dropdown -------- }
@@ -40,7 +40,7 @@ on init
   add_menu_item($articulation, "Sustain", 0)
   add_menu_item($articulation, "Slide", 1)
   add_menu_item($articulation, "Ghost", 2)
-  move_control_px($articulation, 9, 266)
+  move_control_px($articulation, 16, 262)
 
 	{ set_control_par(get_ui_id($articulation),$CONTROL_PAR_WIDTH, 121)
 	set_control_par(get_ui_id($articulation),$CONTROL_PAR_FONT_TYPE, 2)
@@ -58,7 +58,7 @@ on init
   add_menu_item($fret_range, "5-9", 1)
   add_menu_item($fret_range, "10-14", 2)
   add_menu_item($fret_range, "15-20", 2)
-  move_control_px($fret_range, 152, 266)
+  move_control_px($fret_range, 153, 262)
   { -------- /Fret Range Dropdown -------- }
 
   { -------- Tone Knob -------- }
@@ -67,7 +67,7 @@ on init
   make_persistent($tone_knob)
 
   set_control_par_str(get_ui_id($tone_knob), $CONTROL_PAR_PICTURE, "knob")
-  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_X, 296)
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_X, 570)
   set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)
   { -------- /Tone Knob -------- }
@@ -78,7 +78,7 @@ on init
   make_persistent($string_noise_volume)
 
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob")
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 418)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 474)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)
   { -------- /String Noise Knob -------- }
