@@ -2,13 +2,28 @@ on init
   make_perfview
   set_ui_height_px(306)
   set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"blank_icon")
-  declare $keyswitch1 := 12 { Range 1 - Open string-Fret 4 }
-  declare $keyswitch2 := 14 { Range 2 - Fret 4-11 }
-  declare $keyswitch3 := 16 { Range 3 - Fret 12-16 }
-  declare $keyswitch4 := 17 { Range 4 - Fret 17-20 }
-  declare $keyswitch5 := 11 { Ghost Range }
-  declare $keyswitch6 := 9 { Slides Range }
-  declare $keyswitch7 := 7 { Sustains Range }
+
+  declare $count
+   while ($count < 128)
+    set_key_color($count,$KEY_COLOR_NONE)
+    inc($count)
+  end while
+
+  declare $keyswitch7 := 0 { Sustains Range }
+  declare $keyswitch6 := 2 { Slides Range }
+  declare $keyswitch5 := 4 { Ghost Range }
+  declare $keyswitch1 := 5 { Range 1 - Open string-Fret 4 }
+  declare $keyswitch2 := 7 { Range 2 - Fret 4-11 }
+  declare $keyswitch3 := 9 { Range 3 - Fret 12-16 }
+  declare $keyswitch4 := 11 { Range 4 - Fret 17-20 }
+  set_key_color($keyswitch1, $KEY_COLOR_GREEN)
+  set_key_color($keyswitch2, $KEY_COLOR_GREEN)
+  set_key_color($keyswitch3, $KEY_COLOR_GREEN)
+  set_key_color($keyswitch4, $KEY_COLOR_GREEN)
+  set_key_color($keyswitch5, $KEY_COLOR_RED)
+  set_key_color($keyswitch6, $KEY_COLOR_RED)
+  set_key_color($keyswitch7, $KEY_COLOR_RED)
+
   declare $range_state := 1
   declare $current_range := 1
   declare $ghost_state := 0
@@ -57,7 +72,7 @@ on init
   add_menu_item($fret_range, "0-4", 0)
   add_menu_item($fret_range, "5-9", 1)
   add_menu_item($fret_range, "10-14", 2)
-  add_menu_item($fret_range, "15-20", 2)
+  add_menu_item($fret_range, "15-20", 3)
   move_control_px($fret_range, 153, 262)
   { -------- /Fret Range Dropdown -------- }
 
@@ -84,14 +99,6 @@ on init
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /String Noise Knob -------- }
-  
-  set_key_color($keyswitch1, $KEY_COLOR_RED)
-  set_key_color($keyswitch2, $KEY_COLOR_RED)
-  set_key_color($keyswitch3, $KEY_COLOR_RED)
-  set_key_color($keyswitch4, $KEY_COLOR_RED)
-  set_key_color($keyswitch5, $KEY_COLOR_GREEN)
-  set_key_color($keyswitch6, $KEY_COLOR_GREEN)
-  set_key_color($keyswitch7, $KEY_COLOR_GREEN)
 end on
 
 on controller
@@ -218,19 +225,19 @@ on note
   { -------- /Range State -------- }
 
   { -------- Range Selectors -------- }
-  if ($EVENT_NOTE = $keyswitch1)
+  if ($EVENT_NOTE = $keyswitch1 or $fret_range = 0)
     $current_range := 1
   end if
 
-  if ($EVENT_NOTE = $keyswitch2)
+  if ($EVENT_NOTE = $keyswitch2 or $fret_range = 1)
     $current_range := 2
   end if
 
-  if ($EVENT_NOTE = $keyswitch3)
+  if ($EVENT_NOTE = $keyswitch3 or $fret_range = 2)
     $current_range := 3
   end if
 
-  if ($EVENT_NOTE = $keyswitch4)
+  if ($EVENT_NOTE = $keyswitch4 or $fret_range = 3)
     $current_range := 4
   end if
   { -------- /Range Selectors -------- }
