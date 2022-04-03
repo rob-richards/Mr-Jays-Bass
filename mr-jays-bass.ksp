@@ -225,19 +225,20 @@ on note
   { -------- /Range State -------- }
 
   { -------- Range Selectors -------- }
-  if ($EVENT_NOTE = $keyswitch1 or $fret_range = 0)
+  if ($fret_range = 0 or $EVENT_NOTE = $keyswitch1)
+    { get_menu_item_value() }
     $current_range := 1
   end if
 
-  if ($EVENT_NOTE = $keyswitch2 or $fret_range = 1)
+  if ($fret_range = 1 or $EVENT_NOTE = $keyswitch2)
     $current_range := 2
   end if
 
-  if ($EVENT_NOTE = $keyswitch3 or $fret_range = 2)
+  if ($fret_range = 2 or $EVENT_NOTE = $keyswitch3)
     $current_range := 3
   end if
 
-  if ($EVENT_NOTE = $keyswitch4 or $fret_range = 3)
+  if ($fret_range = 3 or $EVENT_NOTE = $keyswitch4)
     $current_range := 4
   end if
   { -------- /Range Selectors -------- }
