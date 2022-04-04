@@ -4,10 +4,6 @@ on init
   set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"blank_icon")
 
   declare $count
-  while ($count < 128)
-    set_key_color($count,$KEY_COLOR_INACTIVE)
-    inc($count)
-  end while
 
   declare $keyswitch7 := 0 { Sustains Range }
   declare $keyswitch6 := 2 { Slides Range }
@@ -139,34 +135,6 @@ on note
   disallow_group($ALL_GROUPS)
   $slide_rr := random(1, 4)
 
-  if ($range_state = 1)
-    $count := 23
-    while ($count < 64)
-      set_key_color($count,$KEY_COLOR_DEFAULT)
-      inc($count)
-    end while
-  end if
-
-  if ($ghost_state = 1)
-    $count := 23
-    while ($count < 64)
-      set_key_color($count,$KEY_COLOR_DEFAULT)
-      inc($count)
-    end while
-  end if
-
-  if ($slide_state = 1)
-    if ($current_range = 1)
-      $count := 31
-      while ($count < 94)
-        set_key_color($count,$KEY_COLOR_DEFAULT)
-        inc($count)
-      end while
-
-      
-    end if
-  end if
-
   { -------- Round Robin Mode Select -------- }
   { Alternating }
   if ($RR_mode = 0)
@@ -198,8 +166,6 @@ on note
   if ($EVENT_NOTE = $keyswitch7)
     if ($range_state = 0)
       $range_state := 1
-    else
-      $range_state := 0
     end if
 
     $ghost_state := 0
@@ -211,8 +177,6 @@ on note
   if ($EVENT_NOTE = $keyswitch5)
     if ($ghost_state = 0)
       $ghost_state := 1
-    else
-      $ghost_state := 0
     end if
 
     $slide_state := 0
@@ -224,8 +188,6 @@ on note
   if ($EVENT_NOTE = $keyswitch6)
     if ($slide_state = 0)
       $slide_state := 1
-    else
-      $slide_state := 0
     end if
 
     $ghost_state := 0
@@ -250,6 +212,88 @@ on note
     $current_range := 4
   end if
   { -------- /Range Selectors -------- }
+
+
+  { -------- Set Active Key Colors -------- }
+  $count := 12
+  while ($count < 128)
+    set_key_color($count,$KEY_COLOR_INACTIVE)
+    inc($count)
+  end while
+  
+  if ($range_state = 1)
+    $count := 23
+    while ($count < 64)
+      set_key_color($count,$KEY_COLOR_DEFAULT)
+      inc($count)
+    end while
+  end if
+
+  if ($ghost_state = 1)
+    $count := 23
+    while ($count < 64)
+      set_key_color($count,$KEY_COLOR_DEFAULT)
+      inc($count)
+    end while
+  end if
+
+  if ($slide_state = 1)
+    if ($current_range = 3)
+      $count := 31
+      while ($count < 75)
+        set_key_color($count,$KEY_COLOR_DEFAULT)
+        inc($count)
+      end while
+
+      set_key_color(41,$KEY_COLOR_INACTIVE)
+      set_key_color(42,$KEY_COLOR_INACTIVE)
+      set_key_color(43,$KEY_COLOR_INACTIVE)
+      set_key_color(44,$KEY_COLOR_INACTIVE)
+      set_key_color(45,$KEY_COLOR_INACTIVE)
+      set_key_color(46,$KEY_COLOR_INACTIVE)
+      set_key_color(47,$KEY_COLOR_INACTIVE)
+
+    end if
+    if ($current_range = 2)
+      $count := 26
+      while ($count < 47)
+        set_key_color($count,$KEY_COLOR_DEFAULT)
+        inc($count)
+      end while
+    end if
+    if ($current_range = 1)
+      $count := 31
+      while ($count < 94)
+        set_key_color($count,$KEY_COLOR_DEFAULT)
+        inc($count)
+      end while
+
+      set_key_color(23,$KEY_COLOR_INACTIVE)
+      set_key_color(24,$KEY_COLOR_INACTIVE)
+      set_key_color(25,$KEY_COLOR_INACTIVE)
+      set_key_color(26,$KEY_COLOR_INACTIVE)
+      set_key_color(27,$KEY_COLOR_INACTIVE)
+      set_key_color(28,$KEY_COLOR_INACTIVE)
+      set_key_color(29,$KEY_COLOR_INACTIVE)
+      set_key_color(30,$KEY_COLOR_INACTIVE)
+      set_key_color(44,$KEY_COLOR_INACTIVE)
+      set_key_color(45,$KEY_COLOR_INACTIVE)
+      set_key_color(46,$KEY_COLOR_INACTIVE)
+      set_key_color(47,$KEY_COLOR_INACTIVE)
+      set_key_color(60,$KEY_COLOR_INACTIVE)
+      set_key_color(61,$KEY_COLOR_INACTIVE)
+      set_key_color(62,$KEY_COLOR_INACTIVE)
+      set_key_color(63,$KEY_COLOR_INACTIVE)
+      set_key_color(64,$KEY_COLOR_INACTIVE)
+      set_key_color(77,$KEY_COLOR_INACTIVE)
+      set_key_color(78,$KEY_COLOR_INACTIVE)
+      set_key_color(79,$KEY_COLOR_INACTIVE)
+      set_key_color(80,$KEY_COLOR_INACTIVE)
+      set_key_color(81,$KEY_COLOR_INACTIVE)
+    end if
+  end if
+
+  { -------- /Set Active Key Colors -------- }
 
 
   { message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ----- Current Range: >> " & $current_range) }
