@@ -30,6 +30,15 @@ on init
   set_control_par(get_ui_id($articulation_label), $CONTROL_PAR_TEXTPOS_Y, 3)
   move_control_px($articulation_label, 16, 262)
 
+  declare ui_label $range_label (2,2)
+  set_text($range_label, "0-4")
+  set_control_par_str(get_ui_id($range_label),$CONTROL_PAR_PICTURE, "active-box")
+  set_control_par (get_ui_id($range_label), $CONTROL_PAR_WIDTH, 101)
+  set_control_par(get_ui_id($range_label), $CONTROL_PAR_TEXT_ALIGNMENT, 1)
+  set_control_par(get_ui_id($range_label), $CONTROL_PAR_FONT_TYPE, 1)
+  set_control_par(get_ui_id($range_label), $CONTROL_PAR_TEXTPOS_Y, 3)
+  move_control_px($range_label, 153, 262)
+
   declare $range_state := 1
   declare $current_range := 1
   declare $sustain_state := 1
@@ -72,7 +81,7 @@ on init
   { -------- /Articulation Dropdown -------- }
 
   { -------- Fret Range Dropdown -------- }
-  declare ui_menu $fret_range
+  { declare ui_menu $fret_range
   set_control_par_str(get_ui_id($fret_range),$CONTROL_PAR_AUTOMATION_NAME, "fret_range")
   set_control_par_str(get_ui_id($fret_range),$CONTROL_PAR_PICTURE, "dropdown-red")
   set_control_par(get_ui_id($fret_range), $CONTROL_PAR_FONT_TYPE, 1)
@@ -81,7 +90,7 @@ on init
   add_menu_item($fret_range, "5-9", 1)
   add_menu_item($fret_range, "10-14", 2)
   add_menu_item($fret_range, "15-20", 3)
-  move_control_px($fret_range, 153, 262)
+  move_control_px($fret_range, 153, 262) }
   { -------- /Fret Range Dropdown -------- }
 
   { -------- Tone Knob -------- }
@@ -194,6 +203,24 @@ on note
     $ghost_state := 0
     $slide_state := 0
   end if
+
+  if ($range_state = 1)
+    if ($current_range = 1)
+      set_text($range_label, "0-4")
+    end if
+
+    if ($current_range = 2)
+      set_text($range_label, "5-9")
+    end if
+
+    if ($current_range = 3)
+      set_text($range_label, "10-14")
+    end if
+
+    if ($current_range = 4)
+      set_text($range_label, "15-20")
+    end if
+  end if
   { -------- /Range State -------- }
 
   { -------- Ghost State -------- }
@@ -205,6 +232,10 @@ on note
 
     $slide_state := 0
     $range_state := 0
+  end if
+
+  if ($ghost_state = 1)
+    set_text($range_label, "-")
   end if
   { -------- /Ghost State -------- }
 
@@ -218,20 +249,23 @@ on note
     $range_state := 0
   end if
 
-  if ($slide_state = 1 and $current_range = 1)
-    set_text($articulation_label, "Slide Up Tonal")
-  end if
+  if ($slide_state = 1)
+    set_text($range_label, "-")
+    if ($current_range = 1)
+      set_text($articulation_label, "Slide Up Tonal")
+    end if
 
-  if ($slide_state = 1 and $current_range = 2)
-    set_text($articulation_label, "Slide Up")
-  end if
+    if ($current_range = 2)
+      set_text($articulation_label, "Slide Up")
+    end if
 
-  if ($slide_state = 1 and $current_range = 3)
-    set_text($articulation_label, "Slide Down")
-  end if
+    if ($current_range = 3)
+      set_text($articulation_label, "Slide Down")
+    end if
 
-  if ($slide_state = 1 and $current_range = 4)
-    set_text($articulation_label, "Slide Up Down")
+    if ($current_range = 4)
+      set_text($articulation_label, "Slide Up Down")
+    end if
   end if
   { -------- /Slide State -------- }
 
