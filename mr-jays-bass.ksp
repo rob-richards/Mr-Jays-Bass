@@ -238,6 +238,13 @@ on note
   end if
 
   if ($slide_state = 1)
+    if ($current_range = 4)
+      $count := 38
+      while ($count < 58)
+        set_key_color($count,$KEY_COLOR_DEFAULT)
+        inc($count)
+      end while
+    end if
     if ($current_range = 3)
       $count := 31
       while ($count < 75)
@@ -252,6 +259,13 @@ on note
       set_key_color(45,$KEY_COLOR_INACTIVE)
       set_key_color(46,$KEY_COLOR_INACTIVE)
       set_key_color(47,$KEY_COLOR_INACTIVE)
+      set_key_color(58,$KEY_COLOR_INACTIVE)
+      set_key_color(59,$KEY_COLOR_INACTIVE)
+      set_key_color(60,$KEY_COLOR_INACTIVE)
+      set_key_color(61,$KEY_COLOR_INACTIVE)
+      set_key_color(62,$KEY_COLOR_INACTIVE)
+      set_key_color(63,$KEY_COLOR_INACTIVE)
+      set_key_color(64,$KEY_COLOR_INACTIVE)
 
     end if
     if ($current_range = 2)
