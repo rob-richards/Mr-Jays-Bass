@@ -166,6 +166,23 @@ on note
   end if
   { -------- /Round Robin Mode Select -------- }
 
+  { -------- Range Selectors -------- }
+  if ($EVENT_NOTE = $keyswitch1)
+    $current_range := 1
+  end if
+
+  if ($EVENT_NOTE = $keyswitch2)
+    $current_range := 2
+  end if
+
+  if ($EVENT_NOTE = $keyswitch3)
+    $current_range := 3
+  end if
+
+  if ($EVENT_NOTE = $keyswitch4)
+    $current_range := 4
+  end if
+  { -------- /Range Selectors -------- }
 
   { -------- Range State -------- }
   if ($EVENT_NOTE = $keyswitch7)
@@ -193,7 +210,6 @@ on note
 
   { -------- Slide State -------- }
   if ($EVENT_NOTE = $keyswitch6)
-    set_text($articulation_label, "Slide")
     if ($slide_state = 0)
       $slide_state := 1
     end if
@@ -201,25 +217,23 @@ on note
     $ghost_state := 0
     $range_state := 0
   end if
+
+  if ($slide_state = 1 and $current_range = 1)
+    set_text($articulation_label, "Slide Up Tonal")
+  end if
+
+  if ($slide_state = 1 and $current_range = 2)
+    set_text($articulation_label, "Slide Up")
+  end if
+
+  if ($slide_state = 1 and $current_range = 3)
+    set_text($articulation_label, "Slide Down")
+  end if
+
+  if ($slide_state = 1 and $current_range = 4)
+    set_text($articulation_label, "Slide Up Down")
+  end if
   { -------- /Slide State -------- }
-
-  { -------- Range Selectors -------- }
-  if ($EVENT_NOTE = $keyswitch1)
-    $current_range := 1
-  end if
-
-  if ($EVENT_NOTE = $keyswitch2)
-    $current_range := 2
-  end if
-
-  if ($EVENT_NOTE = $keyswitch3)
-    $current_range := 3
-  end if
-
-  if ($EVENT_NOTE = $keyswitch4)
-    $current_range := 4
-  end if
-  { -------- /Range Selectors -------- }
 
 
   { -------- Set Active Key Colors -------- }
@@ -317,9 +331,7 @@ on note
 
   { -------- /Set Active Key Colors -------- }
 
-
-  { message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ----- Current Range: >> " & $current_range) }
-  message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ------------- $EVENT_NOTE: >> " & $EVENT_NOTE)
+  message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Current Range: >> " & $current_range)
 
   if ($ghost_state = 1)
     allow_group(find_group("Ghost RR" & $RR))
