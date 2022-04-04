@@ -4,8 +4,8 @@ on init
   set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"blank_icon")
 
   declare $count
-   while ($count < 128)
-    set_key_color($count,$KEY_COLOR_NONE)
+  while ($count < 128)
+    set_key_color($count,$KEY_COLOR_INACTIVE)
     inc($count)
   end while
 
@@ -16,6 +16,7 @@ on init
   declare $keyswitch2 := 7 { Range 2 - Fret 4-11 }
   declare $keyswitch3 := 9 { Range 3 - Fret 12-16 }
   declare $keyswitch4 := 11 { Range 4 - Fret 17-20 }
+
   set_key_color($keyswitch1, $KEY_COLOR_GREEN)
   set_key_color($keyswitch2, $KEY_COLOR_GREEN)
   set_key_color($keyswitch3, $KEY_COLOR_GREEN)
@@ -24,14 +25,25 @@ on init
   set_key_color($keyswitch6, $KEY_COLOR_RED)
   set_key_color($keyswitch7, $KEY_COLOR_RED)
 
+  declare %key_values[2]
+  %key_values[0] := 1
+  %key_values[1] := 1
+
   declare $range_state := 1
   declare $current_range := 1
+  declare $sustain_state := 1
   declare $ghost_state := 0
   declare $slide_state := 0
   declare $RR := 1
   declare $slide_rr := 1
   declare $pitch_bend_state := 0
   declare $pitch_bend_stauts := 0
+
+  $count := 23
+  while ($count < 64)
+    set_key_color($count,$KEY_COLOR_DEFAULT)
+    inc($count)
+  end while
 
   { -------- Round Robin Dropdown -------- }
   declare ui_menu $RR_mode
@@ -56,11 +68,6 @@ on init
   add_menu_item($articulation, "Slide", 1)
   add_menu_item($articulation, "Ghost", 2)
   move_control_px($articulation, 16, 262)
-
-	{ set_control_par(get_ui_id($articulation),$CONTROL_PAR_WIDTH, 121)
-	set_control_par(get_ui_id($articulation),$CONTROL_PAR_FONT_TYPE, 2)
-	set_control_par(get_ui_id($articulation),$CONTROL_PAR_TEXTPOS_Y, 1)
-	set_control_par_str(get_ui_id($articulation),$CONTROL_PAR_PICTURE, "knob") }
   { -------- /Articulation Dropdown -------- }
 
   { -------- Fret Range Dropdown -------- }
@@ -132,6 +139,34 @@ on note
   disallow_group($ALL_GROUPS)
   $slide_rr := random(1, 4)
 
+  if ($range_state = 1)
+    $count := 23
+    while ($count < 64)
+      set_key_color($count,$KEY_COLOR_DEFAULT)
+      inc($count)
+    end while
+  end if
+
+  if ($ghost_state = 1)
+    $count := 23
+    while ($count < 64)
+      set_key_color($count,$KEY_COLOR_DEFAULT)
+      inc($count)
+    end while
+  end if
+
+  if ($slide_state = 1)
+    if ($current_range = 1)
+      $count := 31
+      while ($count < 94)
+        set_key_color($count,$KEY_COLOR_DEFAULT)
+        inc($count)
+      end while
+
+      
+    end if
+  end if
+
   { -------- Round Robin Mode Select -------- }
   { Alternating }
   if ($RR_mode = 0)
@@ -158,16 +193,21 @@ on note
   end if
   { -------- /Round Robin Mode Select -------- }
 
-  { -------- Ghost State -------- }
-  if ($articulation = 2)
-    if ($ghost_state = 0)
-      $ghost_state := 1
+
+  { -------- Range State -------- }
+  if ($EVENT_NOTE = $keyswitch7)
+    if ($range_state = 0)
+      $range_state := 1
+    else
+      $range_state := 0
     end if
 
+    $ghost_state := 0
     $slide_state := 0
-    $range_state := 0
   end if
+  { -------- /Range State -------- }
 
+  { -------- Ghost State -------- }
   if ($EVENT_NOTE = $keyswitch5)
     if ($ghost_state = 0)
       $ghost_state := 1
@@ -181,15 +221,6 @@ on note
   { -------- /Ghost State -------- }
 
   { -------- Slide State -------- }
-  if ($articulation = 1)
-    if ($slide_state = 0)
-      $slide_state := 1
-    end if
-
-    $ghost_state := 0
-    $range_state := 0
-  end if
-
   if ($EVENT_NOTE = $keyswitch6)
     if ($slide_state = 0)
       $slide_state := 1
@@ -202,48 +233,27 @@ on note
   end if
   { -------- /Slide State -------- }
 
-  { -------- Range State -------- }
-  if ($articulation = 0)
-    if ($range_state = 0)
-      $range_state := 1
-    end if
-
-    $ghost_state := 0
-    $slide_state := 0
-  end if
-
-  if ($EVENT_NOTE = $keyswitch7)
-    if ($range_state = 0)
-      $range_state := 1
-    else
-      $range_state := 0
-    end if
-
-    $ghost_state := 0
-    $slide_state := 0
-  end if
-  { -------- /Range State -------- }
-
   { -------- Range Selectors -------- }
-  if ($fret_range = 0 or $EVENT_NOTE = $keyswitch1)
-    { get_menu_item_value() }
+  if ($EVENT_NOTE = $keyswitch1)
     $current_range := 1
   end if
 
-  if ($fret_range = 1 or $EVENT_NOTE = $keyswitch2)
+  if ($EVENT_NOTE = $keyswitch2)
     $current_range := 2
   end if
 
-  if ($fret_range = 2 or $EVENT_NOTE = $keyswitch3)
+  if ($EVENT_NOTE = $keyswitch3)
     $current_range := 3
   end if
 
-  if ($fret_range = 3 or $EVENT_NOTE = $keyswitch4)
+  if ($EVENT_NOTE = $keyswitch4)
     $current_range := 4
   end if
   { -------- /Range Selectors -------- }
 
-  message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ----- Current Range: >> " & $current_range)
+
+  { message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ----- Current Range: >> " & $current_range) }
+  message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Slide Round Robin: >> " & $slide_rr & " ------------- $EVENT_NOTE: >> " & $EVENT_NOTE)
 
   if ($ghost_state = 1)
     allow_group(find_group("Ghost RR" & $RR))
