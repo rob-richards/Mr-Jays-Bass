@@ -21,9 +21,11 @@ on init
   set_key_color($keyswitch6, $KEY_COLOR_RED)
   set_key_color($keyswitch7, $KEY_COLOR_RED)
 
-  declare ui_label $articulation_label (1,1)
+  declare ui_label $articulation_label (2,2)
   set_text($articulation_label, "Sustain")
   set_control_par_str(get_ui_id($articulation_label),$CONTROL_PAR_PICTURE, "active-box")
+  set_control_par (get_ui_id($articulation_label), $CONTROL_PAR_WIDTH, 101)
+  set_control_par(get_ui_id($articulation_label), $CONTROL_PAR_TEXT_ALIGNMENT, 1)
   set_control_par(get_ui_id($articulation_label), $CONTROL_PAR_FONT_TYPE, 1)
   set_control_par(get_ui_id($articulation_label), $CONTROL_PAR_TEXTPOS_Y, 3)
   move_control_px($articulation_label, 16, 262)
