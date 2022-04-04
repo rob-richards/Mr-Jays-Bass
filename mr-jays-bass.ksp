@@ -23,6 +23,7 @@ on init
 
   declare ui_label $articulation_label (1,1)
   set_text($articulation_label, "Sustain")
+  set_control_par_str(get_ui_id($articulation_label),$CONTROL_PAR_PICTURE, "active-box")
   set_control_par(get_ui_id($articulation_label), $CONTROL_PAR_FONT_TYPE, 1)
   set_control_par(get_ui_id($articulation_label), $CONTROL_PAR_TEXTPOS_Y, 3)
   move_control_px($articulation_label, 16, 262)
