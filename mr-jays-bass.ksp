@@ -1,6 +1,6 @@
 on init
   make_perfview
-  set_ui_height_px(306)
+  set_ui_height_px(325)
   set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"blank_icon")
 
   declare $count
@@ -37,7 +37,7 @@ on init
   set_control_par(get_ui_id($range_label), $CONTROL_PAR_TEXT_ALIGNMENT, 1)
   set_control_par(get_ui_id($range_label), $CONTROL_PAR_FONT_TYPE, 1)
   set_control_par(get_ui_id($range_label), $CONTROL_PAR_TEXTPOS_Y, 3)
-  move_control_px($range_label, 153, 262)
+  move_control_px($range_label, 148, 262)
 
   declare $range_state := 1
   declare $current_range := 1
@@ -65,7 +65,7 @@ on init
   add_menu_item($RR_mode, "Random", 1)
   add_menu_item($RR_mode, "Round Robin 1", 2)
   add_menu_item($RR_mode, "Round Robin 2", 3)
-  move_control_px($RR_mode, 287,262)
+  move_control_px($RR_mode, 277,262)
   { -------- /Round Robin Dropdown -------- }
 
   { -------- Articulation Dropdown -------- }
@@ -99,23 +99,47 @@ on init
   set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_DEFAULT_VALUE, 1000000)
   make_persistent($tone_knob)
 
-  set_control_par_str(get_ui_id($tone_knob), $CONTROL_PAR_PICTURE, "knob")
-  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_X, 570)
+  set_control_par_str(get_ui_id($tone_knob), $CONTROL_PAR_PICTURE, "knob-circle-red")
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_X, 582)
   set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /Tone Knob -------- }
 
   { -------- String Noise Knob -------- }
   declare ui_slider $string_noise_volume(0, 1000000)
-  set_control_par_str(get_ui_id($string_noise_volume),$CONTROL_PAR_AUTOMATION_NAME,"String Noise")
+  set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "String Noise")
   set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_DEFAULT_VALUE, 500000)
   make_persistent($string_noise_volume)
 
-  set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob")
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 474)
+  set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob-circle-red")
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 427)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /String Noise Knob -------- }
+
+  { -------- Mute Noise Knob -------- }
+  declare ui_slider $mute_noise_volume(0, 1000000)
+  set_control_par_str(get_ui_id($mute_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Mute Noise")
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_DEFAULT_VALUE, 500000)
+  make_persistent($mute_noise_volume)
+
+  set_control_par_str(get_ui_id($mute_noise_volume), $CONTROL_PAR_PICTURE, "knob-circle-red")
+  set_control_par(get_ui_id($mute_noise_volume), $CONTROL_PAR_POS_X, 470)
+  set_control_par(get_ui_id($mute_noise_volume), $CONTROL_PAR_POS_Y, 264)
+  set_control_par(get_ui_id($mute_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
+  { -------- /Mute Noise Knob -------- }
+
+  { -------- Buzz Noise Knob -------- }
+  declare ui_slider $buzz_noise_volume(0, 1000000)
+  set_control_par_str(get_ui_id($buzz_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Buzz Noise")
+  set_control_par(get_ui_id($tone_knob), $CONTROL_PAR_DEFAULT_VALUE, 500000)
+  make_persistent($buzz_noise_volume)
+
+  set_control_par_str(get_ui_id($buzz_noise_volume), $CONTROL_PAR_PICTURE, "knob-circle-red")
+  set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_POS_X, 509)
+  set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_POS_Y, 264)
+  set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
+  { -------- /Buzz Noise Knob -------- }
 end on
 
 on controller
@@ -139,10 +163,17 @@ on ui_control($tone_knob)
 end on
 
 on ui_control($string_noise_volume)
-  set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, 32, -1, -1)
-  set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, 33, -1, -1)
   set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, 36, -1, -1)
   set_engine_par($ENGINE_PAR_VOLUME, $string_noise_volume, 37, -1, -1)
+end on
+
+on ui_control($mute_noise_volume)
+  set_engine_par($ENGINE_PAR_VOLUME, $mute_noise_volume, 32, -1, -1)
+  set_engine_par($ENGINE_PAR_VOLUME, $mute_noise_volume, 33, -1, -1)
+end on
+
+on ui_control($buzz_noise_volume)
+  set_engine_par($ENGINE_PAR_VOLUME, $buzz_noise_volume, 38, -1, -1)
 end on
 
 on note
@@ -459,6 +490,8 @@ on note
     allow_group(32)
     exit
   end if
+
+  allow_group(38)
 
 end on
 
