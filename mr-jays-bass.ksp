@@ -142,6 +142,10 @@ on init
   { -------- /Buzz Noise Knob -------- }
 end on
 
+on persistence_changed
+  
+end on
+
 on controller
   if ($CC_NUM = $VCC_PITCH_BEND)
     select (%CC[$VCC_PITCH_BEND])
@@ -179,6 +183,14 @@ end on
 on note
   disallow_group($ALL_GROUPS)
   $slide_rr := random(1, 4)
+
+  if ($buzz_noise_volume > 0)
+    allow_group(38)
+    play_note(120, 127, 0, 0)
+  else
+    disallow_group(38)
+    note_off(120)
+  end if
 
   { -------- Round Robin Mode Select -------- }
   { Alternating }
@@ -396,7 +408,7 @@ on note
 
   { -------- /Set Active Key Colors -------- }
 
-  message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Current Range: >> " & $current_range)
+  { message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Current Range: >> " & $current_range) }
 
   if ($ghost_state = 1)
     allow_group(find_group("Ghost RR" & $RR))
@@ -491,8 +503,6 @@ on note
     exit
   end if
 
-  allow_group(38)
-
 end on
 
 on release
@@ -502,7 +512,7 @@ on release
       disallow_group($ALL_GROUPS)
       allow_group(find_group("Release RR" & random(1, 2)))
       allow_group(find_group("String Noise RR" & random(1, 2)))
-      play_note ($EVENT_NOTE,$EVENT_VELOCITY,0,0)
+      play_note($EVENT_NOTE, $EVENT_VELOCITY, 0, 0)
     end if
   end if
   end if
