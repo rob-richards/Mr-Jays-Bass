@@ -148,10 +148,13 @@ on init
   set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /Buzz Noise Knob -------- }
-end on
 
-on persistence_changed
-  
+  { -------- Vibe: Clean -------- }
+  declare ui_button $vibe_clean
+  set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Vibe: Clean")
+  set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "knob-circle-red")
+  set_text($vibe_clean, "")
+  { -------- /Vibe: Clean -------- }
 end on
 
 on controller
@@ -168,6 +171,10 @@ on controller
         $pitch_bend_stauts := 1
     end select
   end if
+end on
+
+on ui_control($vibe_clean)
+  message( "Clean" )
 end on
 
 on ui_control($tone_knob)
