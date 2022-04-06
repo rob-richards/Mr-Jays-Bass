@@ -120,7 +120,7 @@ on init
   make_persistent($string_noise_volume)
 
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_PICTURE, "knob-circle-red")
-  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 427)
+  set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_X, 421)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($string_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /String Noise Knob -------- }
@@ -132,7 +132,7 @@ on init
   make_persistent($mute_noise_volume)
 
   set_control_par_str(get_ui_id($mute_noise_volume), $CONTROL_PAR_PICTURE, "knob-circle-red")
-  set_control_par(get_ui_id($mute_noise_volume), $CONTROL_PAR_POS_X, 470)
+  set_control_par(get_ui_id($mute_noise_volume), $CONTROL_PAR_POS_X, 467)
   set_control_par(get_ui_id($mute_noise_volume), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($mute_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /Mute Noise Knob -------- }
@@ -144,7 +144,7 @@ on init
   make_persistent($buzz_noise_volume)
 
   set_control_par_str(get_ui_id($buzz_noise_volume), $CONTROL_PAR_PICTURE, "knob-circle-red")
-  set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_POS_X, 509)
+  set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_POS_X, 512)
   set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_POS_Y, 264)
   set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /Buzz Noise Knob -------- }
