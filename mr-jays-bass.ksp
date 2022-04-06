@@ -12,6 +12,10 @@ on init
   declare $keyswitch2 := 7 { Range 2 - Fret 4-11 }
   declare $keyswitch3 := 9 { Range 3 - Fret 12-16 }
   declare $keyswitch4 := 11 { Range 4 - Fret 17-20 }
+  declare $keyswitch8 := 12 { String Lock - E }
+  declare $keyswitch9 := 14 { String Lock - A }
+  declare $keyswitch10 := 16 { String Lock - D }
+  declare $keyswitch11 := 17 { String Lock - G }
 
   set_key_color($keyswitch1, $KEY_COLOR_GREEN)
   set_key_color($keyswitch2, $KEY_COLOR_GREEN)
@@ -20,6 +24,10 @@ on init
   set_key_color($keyswitch5, $KEY_COLOR_RED)
   set_key_color($keyswitch6, $KEY_COLOR_RED)
   set_key_color($keyswitch7, $KEY_COLOR_RED)
+  set_key_color($keyswitch8, $KEY_COLOR_PURPLE)
+  set_key_color($keyswitch9, $KEY_COLOR_PURPLE)
+  set_key_color($keyswitch10, $KEY_COLOR_PURPLE)
+  set_key_color($keyswitch11, $KEY_COLOR_PURPLE)
 
   declare ui_label $articulation_label (2,2)
   set_text($articulation_label, "Sustain")
@@ -234,6 +242,22 @@ on note
   if ($EVENT_NOTE = $keyswitch4)
     $current_range := 4
   end if
+
+  if ($EVENT_NOTE = $keyswitch8)
+    $current_range := 5
+  end if
+  
+  if ($EVENT_NOTE = $keyswitch9)
+    $current_range := 6
+  end if
+
+  if ($EVENT_NOTE = $keyswitch10)
+    $current_range := 7
+  end if
+
+  if ($EVENT_NOTE = $keyswitch11)
+    $current_range := 8
+  end if
   { -------- /Range Selectors -------- }
 
   { -------- Range State -------- }
@@ -263,6 +287,22 @@ on note
     if ($current_range = 4)
       set_text($range_label, "15-20")
     end if
+
+    if ($current_range = 5)
+      set_text($range_label, "String Lock E")
+    end if
+
+    if ($current_range = 6)
+      set_text($range_label, "String Lock A")
+    end if
+
+    if ($current_range = 7)
+      set_text($range_label, "String Lock D")
+    end if
+
+    if ($current_range = 8)
+      set_text($range_label, "String Lock G")
+    end if
   end if
   { -------- /Range State -------- }
 
@@ -275,6 +315,7 @@ on note
 
     $slide_state := 0
     $range_state := 0
+    $current_range := 1
   end if
 
   if ($ghost_state = 1)
@@ -290,6 +331,7 @@ on note
 
     $ghost_state := 0
     $range_state := 0
+    $current_range := 1
   end if
 
   if ($slide_state = 1)
@@ -314,7 +356,7 @@ on note
 
 
   { -------- Set Active Key Colors -------- }
-  $count := 12
+  $count :=20
   while ($count < 128)
     set_key_color($count,$KEY_COLOR_INACTIVE)
     inc($count)
@@ -492,6 +534,54 @@ on note
         allow_group(find_group("E String Range 4 RR" & $RR))
         allow_group(find_group("A String Range 4 RR" & $RR))
         allow_group(find_group("D String Range 4 RR" & $RR))
+        allow_group(find_group("G String Range 4 RR" & $RR))
+        exit
+    end if
+
+    { String Lock E }
+    if ($current_range = 5)
+        allow_group(find_group("E String Range 1 RR" & $RR))
+        allow_group(find_group("E String Range 2 RR" & $RR))
+        allow_group(find_group("E String Range 3 RR" & $RR))
+        allow_group(find_group("E String Range 4 RR" & $RR))
+        allow_group(find_group("A String Range 4 RR" & $RR))
+        allow_group(find_group("D String Range 4 RR" & $RR))
+        allow_group(find_group("G String Range 4 RR" & $RR))
+        exit
+    end if
+
+    { String Lock A }
+    if ($current_range = 6)
+        allow_group(find_group("E String Range 1 RR" & $RR))
+        allow_group(find_group("A String Range 1 RR" & $RR))
+        allow_group(find_group("A String Range 2 RR" & $RR))
+        allow_group(find_group("A String Range 3 RR" & $RR))
+        allow_group(find_group("A String Range 4 RR" & $RR))
+        allow_group(find_group("D String Range 4 RR" & $RR))
+        allow_group(find_group("G String Range 4 RR" & $RR))
+        exit
+    end if
+
+    { String Lock D }
+    if ($current_range = 7)
+        allow_group(find_group("E String Range 1 RR" & $RR))
+        allow_group(find_group("A String Range 1 RR" & $RR))
+        allow_group(find_group("D String Range 1 RR" & $RR))
+        allow_group(find_group("D String Range 2 RR" & $RR))
+        allow_group(find_group("D String Range 3 RR" & $RR))
+        allow_group(find_group("D String Range 4 RR" & $RR))
+        allow_group(find_group("G String Range 4 RR" & $RR))
+        exit
+    end if
+
+    { String Lock G }
+    if ($current_range = 8)
+        allow_group(find_group("E String Range 1 RR" & $RR))
+        allow_group(find_group("A String Range 1 RR" & $RR))
+        allow_group(find_group("D String Range 1 RR" & $RR))
+        allow_group(find_group("G String Range 1 RR" & $RR))
+        allow_group(find_group("G String Range 2 RR" & $RR))
+        allow_group(find_group("G String Range 3 RR" & $RR))
         allow_group(find_group("G String Range 4 RR" & $RR))
         exit
     end if
