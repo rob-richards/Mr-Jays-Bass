@@ -149,12 +149,49 @@ on init
   set_control_par(get_ui_id($buzz_noise_volume), $CONTROL_PAR_MOUSE_BEHAVIOUR, -250)
   { -------- /Buzz Noise Knob -------- }
 
+  { -------- Vibe: D.I. -------- }
+  declare ui_button $vibe_di
+  $vibe_di := 0
+  set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Vibe: D.I.")
+  set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par(get_ui_id($vibe_di), $CONTROL_PAR_POS_X, 457)
+  set_control_par(get_ui_id($vibe_di), $CONTROL_PAR_POS_Y, 166)
+  make_persistent($vibe_di)
+  set_text($vibe_di, "")
+  { -------- /Vibe: D.I. -------- }
+
   { -------- Vibe: Clean -------- }
   declare ui_button $vibe_clean
+  $vibe_clean := 1
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Vibe: Clean")
-  set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "knob-circle-red")
+  set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-on")
+  set_control_par(get_ui_id($vibe_clean), $CONTROL_PAR_POS_X, 499)
+  set_control_par(get_ui_id($vibe_clean), $CONTROL_PAR_POS_Y, 166)
+  make_persistent($vibe_clean)
   set_text($vibe_clean, "")
   { -------- /Vibe: Clean -------- }
+
+  { -------- Vibe: Edge -------- }
+  declare ui_button $vibe_edge
+  $vibe_edge := 0
+  set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Vibe: Edge")
+  set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par(get_ui_id($vibe_edge), $CONTROL_PAR_POS_X, 538)
+  set_control_par(get_ui_id($vibe_edge), $CONTROL_PAR_POS_Y, 166)
+  make_persistent($vibe_edge)
+  set_text($vibe_edge, "")
+  { -------- /Vibe: Edge -------- }
+
+  { -------- Vibe: Dirt -------- }
+  declare ui_button $vibe_dirt
+  $vibe_dirt := 0
+  set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Vibe: Dirt")
+  set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par(get_ui_id($vibe_dirt), $CONTROL_PAR_POS_X, 577)
+  set_control_par(get_ui_id($vibe_dirt), $CONTROL_PAR_POS_Y, 166)
+  make_persistent($vibe_dirt)
+  set_text($vibe_dirt, "")
+  { -------- /Vibe: Dirt -------- }
 end on
 
 on controller
@@ -173,8 +210,65 @@ on controller
   end if
 end on
 
+on ui_control($vibe_di)
+  if ($vibe_di = 1)
+    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-on")
+    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
+    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
+    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
+
+    $vibe_clean := 0
+    $vibe_edge := 0
+    $vibe_dirt := 0
+  else
+    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
+    
+  end if
+end on
+
 on ui_control($vibe_clean)
-  message( "Clean" )
+  if ($vibe_clean = 1)
+    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-on")
+    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
+    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
+    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
+
+    $vibe_di := 0
+    $vibe_edge := 0
+    $vibe_dirt := 0
+  else
+    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
+  end if
+end on
+
+on ui_control($vibe_edge)
+  if ($vibe_edge = 1)
+    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-on")
+    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
+    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
+    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
+
+    $vibe_di := 0
+    $vibe_clean := 0
+    $vibe_dirt := 0
+  else
+    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
+  end if
+end on
+
+on ui_control($vibe_dirt)
+  if ($vibe_dirt = 1)
+    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-on")
+    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
+    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
+    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
+
+    $vibe_di := 0
+    $vibe_clean := 0
+    $vibe_edge := 0
+  else
+    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
+  end if
 end on
 
 on ui_control($tone_knob)
@@ -195,6 +289,8 @@ on ui_control($buzz_noise_volume)
   set_engine_par($ENGINE_PAR_VOLUME, $buzz_noise_volume, 38, -1, -1)
 end on
 
+
+{ ---------------- On Note Callback Start ---------------- }
 on note
   disallow_group($ALL_GROUPS)
   $slide_rr := random(1, 4)
@@ -464,7 +560,7 @@ on note
 
   { -------- /Set Active Key Colors -------- }
 
-  { message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Current Range: >> " & $current_range) }
+  message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Current Range: >> " & $current_range)
 
   if ($ghost_state = 1)
     allow_group(find_group("Ghost RR" & $RR))
@@ -608,7 +704,9 @@ on note
   end if
 
 end on
+{ ---------------- /On Note Callback End ---------------- }
 
+{ ---------------- On Release Callback Start ---------------- }
 on release
   if ($ghost_state = 0)
   if ($slide_state = 0)
@@ -622,3 +720,4 @@ on release
   end if
 
 end on
+{ ---------------- /On Release Callback End ---------------- }
