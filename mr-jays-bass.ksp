@@ -161,7 +161,7 @@ on init
   { -------- /Vibe: D.I. -------- }
 
   { -------- Vibe: Clean -------- }
-  declare ui_button $vibe_clean
+  declare ui_switch $vibe_clean
   $vibe_clean := 1
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Vibe: Clean")
   set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-on")
@@ -172,7 +172,7 @@ on init
   { -------- /Vibe: Clean -------- }
 
   { -------- Vibe: Edge -------- }
-  declare ui_button $vibe_edge
+  declare ui_switch $vibe_edge
   $vibe_edge := 0
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Vibe: Edge")
   set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
@@ -183,7 +183,7 @@ on init
   { -------- /Vibe: Edge -------- }
 
   { -------- Vibe: Dirt -------- }
-  declare ui_button $vibe_dirt
+  declare ui_switch $vibe_dirt
   $vibe_dirt := 0
   set_control_par_str(get_ui_id($string_noise_volume), $CONTROL_PAR_AUTOMATION_NAME, "Vibe: Dirt")
   set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
@@ -220,9 +220,11 @@ on ui_control($vibe_di)
     $vibe_clean := 0
     $vibe_edge := 0
     $vibe_dirt := 0
-  else
-    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
-    
+
+    { 
+      TODO: Set a while loop to change the output of each group to Bus 1
+    declare $bus_count := 0 }
+    set_engine_par($ENGINE_PAR_OUTPUT_CHANNEL, $NI_BUS_OFFSET+0, 0, -1, $NI_BUS_OFFSET+0)
   end if
 end on
 
@@ -236,8 +238,6 @@ on ui_control($vibe_clean)
     $vibe_di := 0
     $vibe_edge := 0
     $vibe_dirt := 0
-  else
-    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
   end if
 end on
 
@@ -251,8 +251,6 @@ on ui_control($vibe_edge)
     $vibe_di := 0
     $vibe_clean := 0
     $vibe_dirt := 0
-  else
-    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
   end if
 end on
 
@@ -266,8 +264,6 @@ on ui_control($vibe_dirt)
     $vibe_di := 0
     $vibe_clean := 0
     $vibe_edge := 0
-  else
-    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
   end if
 end on
 
