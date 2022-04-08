@@ -230,42 +230,54 @@ message( $vibe_di )
 end on
 
 on ui_control($vibe_clean)
-  if ($vibe_clean = 1)
-    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-on")
-    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
-    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
-    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-on")
+  set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
 
-    $vibe_di := 0
-    $vibe_edge := 0
-    $vibe_dirt := 0
-  end if
+  $vibe_di := 0
+  $vibe_edge := 0
+  $vibe_dirt := 0
+
+  $bus_count := 0
+  while($bus_count < $NUM_GROUPS)
+    set_engine_par($ENGINE_PAR_OUTPUT_CHANNEL, $NI_BUS_OFFSET+1, $bus_count, -1, $NI_BUS_OFFSET+1)
+    inc($bus_count)
+  end while
 end on
 
 on ui_control($vibe_edge)
-  if ($vibe_edge = 1)
-    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-on")
-    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
-    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
-    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-on")
+  set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-off")
 
-    $vibe_di := 0
-    $vibe_clean := 0
-    $vibe_dirt := 0
-  end if
+  $vibe_di := 0
+  $vibe_clean := 0
+  $vibe_dirt := 0
+
+  $bus_count := 0
+  while($bus_count < $NUM_GROUPS)
+    set_engine_par($ENGINE_PAR_OUTPUT_CHANNEL, $NI_BUS_OFFSET+2, $bus_count, -1, $NI_BUS_OFFSET+2)
+    inc($bus_count)
+  end while
 end on
 
 on ui_control($vibe_dirt)
-  if ($vibe_dirt = 1)
-    set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-on")
-    set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
-    set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
-    set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_dirt), $CONTROL_PAR_PICTURE, "vibe-on")
+  set_control_par_str(get_ui_id($vibe_di), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_clean), $CONTROL_PAR_PICTURE, "vibe-off")
+  set_control_par_str(get_ui_id($vibe_edge), $CONTROL_PAR_PICTURE, "vibe-off")
 
-    $vibe_di := 0
-    $vibe_clean := 0
-    $vibe_edge := 0
-  end if
+  $vibe_di := 0
+  $vibe_clean := 0
+  $vibe_edge := 0
+
+  $bus_count := 0
+  while($bus_count < $NUM_GROUPS)
+    set_engine_par($ENGINE_PAR_OUTPUT_CHANNEL, $NI_BUS_OFFSET+3, $bus_count, -1, $NI_BUS_OFFSET+3)
+    inc($bus_count)
+  end while
 end on
 
 on ui_control($tone_knob)
