@@ -3,7 +3,13 @@ on init
   set_ui_height_px(325)
   set_control_par_str($INST_ICON_ID,$CONTROL_PAR_PICTURE,"blank_icon")
 
+  { Clear Key Colors }
   declare $count
+  $count := 23
+  while ($count < 127)
+    set_key_color($count,$KEY_COLOR_INACTIVE)
+    inc($count)
+  end while
 
   declare $keyswitch7 := 0 { Sustains Range }
   declare $keyswitch6 := 2 { Slides Range }
@@ -572,7 +578,7 @@ on note
 
   { -------- /Set Active Key Colors -------- }
 
-  message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Current Range: >> " & $current_range)
+  { message("Range State: >> " & $range_state & " ----- Slide State: >> " & $slide_state & " ----- Ghost State: >> " & $ghost_state & " ----- Round Robin: >> " & $RR & " ----- Current Range: >> " & $current_range) }
 
   if ($ghost_state = 1)
     allow_group(find_group("Ghost RR" & $RR))
@@ -612,6 +618,19 @@ on note
   end if
 
   if ($range_state = 1)
+    { Pitched slides in sustain mode }
+    { if ($pitch_bend_state = 1)
+      if ($pitch_bend_stauts = -1)
+        allow_group(find_group("Slide Down RR" & $slide_rr))
+      end if
+
+      if ($pitch_bend_stauts = 1)
+        allow_group(find_group("Slide Up RR" & $slide_rr))
+      end if
+
+      exit
+    end if }
+
     { Note Range 1 }
     if ($current_range = 1)
         allow_group(find_group("E String Range 1 RR" & $RR))
@@ -707,12 +726,6 @@ on note
         allow_group(find_group("G String Range 4 RR" & $RR))
         exit
     end if
-  end if
-
-  { Note Range 5 }
-  if ($current_range = 5)
-    allow_group(32)
-    exit
   end if
 
 end on
